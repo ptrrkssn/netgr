@@ -9,6 +9,8 @@
 #include <ctype.h>
 #include <stdlib.h>
 #include <string.h>
+#include <sys/types.h>
+#include <rpc/rpc.h>
 #include <rpcsvc/ypclnt.h>
 #include <rpcsvc/yp_prot.h>
 
