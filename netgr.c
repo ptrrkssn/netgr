@@ -15,8 +15,6 @@
 #include "strmatch.h"
 #include "list.h"
 
-#define NULL 0
-
 char *argv0 = "netgr";
 char *ypdom = NULL;
 char *ypmap = "netgroup";
