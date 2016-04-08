@@ -564,7 +564,7 @@ main(int argc,
     if (i >= argc) {
 	struct ypall_callback icb;
 	
-	icb.foreach = yp_foreach;
+	icb.foreach = (int (*)()) yp_foreach;
 	icb.data = NULL;
 	
 	rc = yp_all(ypdom, ypmap, &icb);
