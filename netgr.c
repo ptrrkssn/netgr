@@ -2,6 +2,21 @@
 ** nergr.c - A small tool to display/check NIS netgroups
 **
 ** Copyright (c) 2016 Peter Eriksson <pen@lysator.liu.se>
+**
+** This file is part of netgr.
+**
+** netgr is free software: you can redistribute it and/or modify
+** it under the terms of the GNU General Public License as published by
+** the Free Software Foundation, either version 3 of the License, or
+** (at your option) any later version.
+** 
+** netgr is distributed in the hope that it will be useful,
+** but WITHOUT ANY WARRANTY; without even the implied warranty of
+** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+** GNU General Public License for more details.
+** 
+** You should have received a copy of the GNU General Public License
+** along with netgr.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include <stdio.h>
@@ -469,6 +484,8 @@ main(int argc,
     
     argv0 = argv[0];
     
+    yp_get_default_domain(&ypdom);
+
     for (i = 1; i < argc && argv[i][0] == '-'; i++) {
 	for (j = 1; argv[i][j]; j++)
 	    switch (argv[i][j]) {
@@ -482,8 +499,8 @@ main(int argc,
 		puts("\t-x                          Exact match only");
 		puts("\t-d                          Increase debug level");
 		puts("\t-m<match>                   Filter match");
-		puts("\t-D<domain>                  YP domain");
 		printf("\t-M<map>                     YP map (default: %s)\n", ypmap);
+		printf("\t-D<domain>                  YP domain (default: %s)\n", ypdom ? ypdom : "NONE");
 		exit(0);
 		
 	      case 'd':
@@ -552,13 +569,10 @@ main(int argc,
     if (verbose)
 	fprintf(stderr, "[netgr, version 1.0 - Copyright (c) 2016 Peter Eriksson <pen@lysator.liu.se>]\n");
     
-    if (ypdom == NULL) {
-	rc = yp_get_default_domain(&ypdom);
-	if (rc != 0) {
-	    fprintf(stderr, "%s: yp_get_default_domain(): %s\n",
-		    argv[0], yperr_string(rc));
-	    exit(1);
-	}
+    if (!ypdom) {
+	fprintf(stderr, "%s: YP domain not defined\n",
+		argv[0]);
+	exit(1);
     }
     
     if (i >= argc) {
