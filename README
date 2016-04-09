@@ -36,7 +36,7 @@ Available options include (run with -h for the latest information):
         -d                          Increase debug level
         -m<match>                   Filter match (may use wildcards)
         -M<map>                     YP map (default: netgroup)
-        -D<domain>                  YP domain (default: ifm.liu.se)
+        -D<domain>                  YP domain (default: YOUR-DOMAIN)
 
 With "-xx" wildcards will not be used. By default if you do not specify any groups will
 list all available groups. If you specify groups, will list the containing nodes (host,user,domain).
@@ -47,9 +47,9 @@ EXAMPLES:
 
 % ./netgr -gn -m 'o[ob]' sun-netra-t1
 sun-netra-t1
-hartree-sun-netra-t1-servers
-hartree-sun-netra-t1-solaris-servers
-        (dobby.ifm.liu.se,-,)
-        (snoopy.ifm.liu.se,-,)
+astoria-sun-netra-t1-servers
+astoria-sun-netra-t1-solaris-servers
+        (dobby.lunarbase.gov,-,)
+        (snoopy.lunarbase.gov,-,)
 
 
