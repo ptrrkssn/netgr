@@ -1,2 +1,55 @@
-# netgr
-Small tool to display NIS netgroup data in a more admin-friendly way
+netgr, version 1.0
+
+Copyright (c) 2016 Peter Eriksson <pen@lysator.liu.se>
+
+Small command line tool to display NIS netgroup data in a more admin-friendly way.
+
+
+
+DOWNLOAD
+
+You may download the latest version of this tool from:
+
+	https://github.com/ptrrkssn/netgr
+
+
+
+INSTALL
+
+Build tested on Solaris (Sun/Oracle Studio & GCC), Linux (GCC) & FreeBSD (GCC).
+To build, optionally edit 'Makefile' and then type 'make'. (FreeBSD users need
+to modify the Makefile to remove the "-lnsl" library).
+
+
+
+USAGE:
+
+Run from the shell like this:
+	netgr [<options>] [<group-1>] [... <group-N>]
+	
+Available options include (run with -h for the latest information):
+        -h                          Display this information
+        -v                          Increase verbosity level
+        -g                          Print groups
+        -n                          Print nodes
+        -x                          Increase exact match level (default: substring)
+        -d                          Increase debug level
+        -m<match>                   Filter match (may use wildcards)
+        -M<map>                     YP map (default: netgroup)
+        -D<domain>                  YP domain (default: ifm.liu.se)
+
+With "-xx" wildcards will not be used. By default if you do not specify any groups will
+list all available groups. If you specify groups, will list the containing nodes (host,user,domain).
+
+
+
+EXAMPLES:
+
+% ./netgr -gn -m 'o[ob]' sun-netra-t1
+sun-netra-t1
+hartree-sun-netra-t1-servers
+hartree-sun-netra-t1-solaris-servers
+        (dobby.ifm.liu.se,-,)
+        (snoopy.ifm.liu.se,-,)
+
+
