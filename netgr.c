@@ -239,13 +239,29 @@ int
 _s_match(const char *s,
 	const char *m)
 {
-    if (exact)
-	return strcmp(s, m) == 0;
-    
-    if (strchr(m, '*') || strchr(m, '?'))
-	return strmatch(s, m);
-
-    return strstr(s, m) != NULL;
+    if (exact != 2 && (strchr(m, '*') || strchr(m, '?') || strchr(m, '['))) {
+	if (exact)
+	    return strmatch(s, m);
+	else {
+	    char *nm = malloc(strlen(m)+2+1);
+	    int rc;
+	    
+	    if (!nm)
+		return -1;
+	    
+	    strcpy(nm, "*");
+	    strcat(nm, m);
+	    strcat(nm, "*");
+	    rc = strmatch(s, nm);
+	    free(nm);
+	    return rc;
+	}
+    } else {
+	if (exact)
+	    return strcmp(s, m) == 0;
+	else
+	    return strstr(s, m) != NULL;
+    }
 }
 
 int
@@ -496,9 +512,9 @@ main(int argc,
 		puts("\t-v                          Increase verbosity level");
 		puts("\t-g                          Print groups");
 		puts("\t-n                          Print nodes");
-		puts("\t-x                          Exact match only");
+		puts("\t-x                          Increase exact match level (default: substring)");
 		puts("\t-d                          Increase debug level");
-		puts("\t-m<match>                   Filter match");
+		puts("\t-m<match>                   Filter match (may use wildcards)");
 		printf("\t-M<map>                     YP map (default: %s)\n", ypmap);
 		printf("\t-D<domain>                  YP domain (default: %s)\n", ypdom ? ypdom : "NONE");
 		exit(0);
